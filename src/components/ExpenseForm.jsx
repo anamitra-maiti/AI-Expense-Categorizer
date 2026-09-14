@@ -1,35 +1,70 @@
 import React from "react";
 import { useState } from "react";
 
-const ExpenseForm = () => {
-  const [expense, setExpense] = useState("");
-  const [result, setResult] = useState("");
-  const handleChange = (e) => {
-    setExpense(e.target.value);
-  };
-  const onSubmit = () => {
-    if (expense.trim() === "") {
-      setResult("Please enter an expense.");
+const ExpenseForm = ({ onAddExpense }) => {
+  const [description, setDescription] = useState("");
+  const [amount, setAmount] = useState("");
+  const [message, setMessage] = useState("");
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    if (description.trim() === "" || amount === "") {
+      setMessage("Please fill in both fields.");
       return;
     }
 
-    setResult("Sample category: Transportation");
+    if (Number(amount) <= 0) {
+      setMessage("Amount must be greater than zero.");
+      return;
+    }
+
+    const newExpense = {
+      id: Date.now(),
+      description: description,
+      category: "Other",
+      amount: Number(amount),
+    };
+
+    onAddExpense(newExpense);
+
+    setDescription("");
+    setAmount("");
+    setMessage("Expense added successfully.");
   };
+
   return (
-    <section className="expense-card" id="add-expense">
-      <h2>Add an Expense</h2>
-      <label htmlFor="expenseInput">Expense Description</label>
+    <form className="expense-card" onSubmit={onSubmit}>
+      <h2>Add Expense</h2>
+
+      <label htmlFor="expenseDescription">Expense Description</label>
+
       <input
+        id="expenseDescription"
         type="text"
-        id="expenseInput"
-        placeholder="Example: Rs.50 Uber Ride"
-        onChange={handleChange}
+        placeholder="Example: Coffee"
+        value={description}
+        onChange={(event) => {
+          setDescription(event.target.value);
+        }}
       />
 
-      <button onClick={onSubmit}>Categorize Expense</button>
+      <label htmlFor="expenseAmount">Amount (₹)</label>
 
-      {result && <p>{result}</p>}
-    </section>
+      <input
+        id="expenseAmount"
+        type="number"
+        placeholder="Example: 250"
+        value={amount}
+        onChange={(event) => {
+          setAmount(event.target.value);
+        }}
+      />
+
+      <button type="submit">Add Expense</button>
+
+      {message && <p>{message}</p>}
+    </form>
   );
 };
 

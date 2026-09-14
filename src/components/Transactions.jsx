@@ -1,39 +1,18 @@
 import React from "react";
 
-const Transactions = () => {
-  const transactions = [
-    {
-      id: 1,
-      description: "Uber ride",
-      category: "Travel",
-      amount: 500,
-    },
-    {
-      id: 2,
-      description: "Lunch with team",
-      category: "Food",
-      amount: 320,
-    },
-    {
-      id: 3,
-      description: "Amazon purchase",
-      category: "Shopping",
-      amount: 1200,
-    },
-  ];
-
+const Transactions = ({ expenses }) => {
   return (
     <section className="transactions">
       <h2>Recent Transactions</h2>
 
-      {transactions.map((transaction) => (
-        <div className="transaction" key={transaction.id}>
+      {expenses.map((expense) => (
+        <div className="transaction" key={expense.id}>
           <div>
-            <strong>{transaction.description}</strong>
-            <p>{transaction.category}</p>
+            <strong>{expense.description}</strong>
+            <p>{expense.category}</p>
           </div>
 
-          <strong>₹{transaction.amount}</strong>
+          <strong>₹{expense.amount.toLocaleString("en-IN")}</strong>
         </div>
       ))}
     </section>

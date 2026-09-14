@@ -3,8 +3,40 @@ import SummaryCard from "./components/SummaryCard";
 import ExpenseForm from "./components/ExpenseForm";
 import Transactions from "./components/Transactions";
 import "./App.css";
-
+import { useState } from "react";
 function App() {
+  const [expenses, setExpenses] = useState([
+    {
+      id: 1,
+      description: "Uber ride",
+      category: "Travel",
+      amount: 500,
+    },
+    {
+      id: 2,
+      description: "Lunch with team",
+      category: "Food",
+      amount: 320,
+    },
+    {
+      id: 3,
+      description: "Amazon purchase",
+      category: "Shopping",
+      amount: 1200,
+    },
+  ]);
+
+  const addExpense = (newExpense) => {
+    setExpenses((previousExpenses) => {
+      return [newExpense, ...previousExpenses];
+    });
+  };
+
+  const totalSpent = expenses.reduce(
+    (total, expense) => total + expense.amount,
+    0,
+  );
+
   return (
     <div className="dashboard">
       <Sidebar />
@@ -16,15 +48,18 @@ function App() {
         </header>
 
         <section className="summary-grid">
-          <SummaryCard title="Total Spent" value="₹8,450" />
+          <SummaryCard
+            title="Total Spent"
+            value={`₹${totalSpent.toLocaleString("en-IN")}`}
+          />
 
-          <SummaryCard title="Transactions" value="15" />
+          <SummaryCard title="Transactions" value={expenses.length} />
 
           <SummaryCard title="Top Category" value="Food" />
         </section>
 
         <section className="content-grid">
-          <ExpenseForm />
+          <ExpenseForm onAddExpense={addExpense} />
 
           <div className="insight-card">
             <h2>AI Insight</h2>
@@ -32,7 +67,7 @@ function App() {
           </div>
         </section>
 
-        <Transactions />
+        <Transactions expenses={expenses} />
       </main>
     </div>
   );
