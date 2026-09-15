@@ -4,13 +4,15 @@ import { useState } from "react";
 const ExpenseForm = ({ onAddExpense }) => {
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
+  const [category, setCategory] = useState("");
+
   const [message, setMessage] = useState("");
 
   const onSubmit = (e) => {
     e.preventDefault();
 
-    if (description.trim() === "" || amount === "") {
-      setMessage("Please fill in both fields.");
+    if (description.trim() === "" || amount === "" || category === "") {
+      setMessage("Please fill in all fields.");
       return;
     }
 
@@ -22,7 +24,7 @@ const ExpenseForm = ({ onAddExpense }) => {
     const newExpense = {
       id: Date.now(),
       description: description,
-      category: "Other",
+      category: category,
       amount: Number(amount),
     };
 
@@ -30,6 +32,8 @@ const ExpenseForm = ({ onAddExpense }) => {
 
     setDescription("");
     setAmount("");
+    setCategory("");
+
     setMessage("Expense added successfully.");
   };
 
@@ -60,6 +64,22 @@ const ExpenseForm = ({ onAddExpense }) => {
           setAmount(event.target.value);
         }}
       />
+      <label htmlFor="expenseCategory">Category</label>
+
+      <select
+        id="expenseCategory"
+        value={category}
+        onChange={(event) => {
+          setCategory(event.target.value);
+        }}
+      >
+        <option value="">Select a category</option>
+        <option value="Food">Food</option>
+        <option value="Travel">Travel</option>
+        <option value="Shopping">Shopping</option>
+        <option value="Bills">Bills</option>
+        <option value="Other">Other</option>
+      </select>
 
       <button type="submit">Add Expense</button>
 

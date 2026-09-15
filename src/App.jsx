@@ -37,6 +37,20 @@ function App() {
     0,
   );
 
+  const categoryTotals = expenses.reduce((totals, expense) => {
+    totals[expense.category] = (totals[expense.category] || 0) + expense.amount;
+
+    return totals;
+  }, {});
+
+  const topCategory = Object.keys(categoryTotals).reduce((top, category) => {
+    if (top === "" || categoryTotals[category] > categoryTotals[top]) {
+      return category;
+    }
+
+    return top;
+  }, "");
+
   return (
     <div className="dashboard">
       <Sidebar />
@@ -55,7 +69,7 @@ function App() {
 
           <SummaryCard title="Transactions" value={expenses.length} />
 
-          <SummaryCard title="Top Category" value="Food" />
+          <SummaryCard title="Top Category" value={topCategory || "None"} />
         </section>
 
         <section className="content-grid">
