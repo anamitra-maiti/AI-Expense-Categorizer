@@ -1,6 +1,6 @@
 import React from "react";
 
-const Transactions = ({ expenses }) => {
+const Transactions = ({ expenses, onDeleteExpense }) => {
   return (
     <section className="transactions">
       <h2>Recent Transactions</h2>
@@ -13,6 +13,12 @@ const Transactions = ({ expenses }) => {
           </div>
 
           <strong>₹{expense.amount.toLocaleString("en-IN")}</strong>
+          <button
+            className="delete-button"
+            onClick={() => onDeleteExpense(expense.id)}
+          >
+            Delete
+          </button>
         </div>
       ))}
     </section>

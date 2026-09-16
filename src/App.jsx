@@ -32,6 +32,12 @@ function App() {
     });
   };
 
+  const deleteExpense = (expenseId) => {
+    setExpenses((previousExpenses) => {
+      return previousExpenses.filter((expense) => expense.id !== expenseId);
+    });
+  };
+
   const totalSpent = expenses.reduce(
     (total, expense) => total + expense.amount,
     0,
@@ -81,7 +87,7 @@ function App() {
           </div>
         </section>
 
-        <Transactions expenses={expenses} />
+        <Transactions expenses={expenses} onDeleteExpense={deleteExpense} />
       </main>
     </div>
   );

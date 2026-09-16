@@ -176,6 +176,19 @@ button {
   color: #667085;
 }
 
+.transaction-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.delete-button {
+  width: auto;
+  padding: 6px 10px;
+  background-color: #ef4444;
+  font-size: 13px;
+}
+
 @media (max-width: 700px) {
   .dashboard {
     flex-direction: column;
