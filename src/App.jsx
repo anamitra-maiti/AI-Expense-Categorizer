@@ -3,28 +3,20 @@ import SummaryCard from "./components/SummaryCard";
 import ExpenseForm from "./components/ExpenseForm";
 import Transactions from "./components/Transactions";
 import "./App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 function App() {
-  const [expenses, setExpenses] = useState([
-    {
-      id: 1,
-      description: "Uber ride",
-      category: "Travel",
-      amount: 500,
-    },
-    {
-      id: 2,
-      description: "Lunch with team",
-      category: "Food",
-      amount: 320,
-    },
-    {
-      id: 3,
-      description: "Amazon purchase",
-      category: "Shopping",
-      amount: 1200,
-    },
-  ]);
+  const [expenses, setExpenses] = useState(() => {
+    const savedExpenses = localStorage.getItem("expenses");
+
+    if (savedExpenses) {
+      return JSON.parse(savedExpenses);
+    }
+    return [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem("expenses", JSON.stringify(expenses));
+  }, [expenses]);
 
   const addExpense = (newExpense) => {
     setExpenses((previousExpenses) => {
